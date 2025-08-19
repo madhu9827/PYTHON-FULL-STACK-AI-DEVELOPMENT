@@ -1,0 +1,12 @@
+l=[18,81,7,8,11,232,55]
+b=bytes(l)
+ba=bytearray(l)
+fx=frozenset(l)
+r=range(100)
+nt=None
+print(type(ba))
+print(type(fx))
+print(type(r))
+print(type(b))
+print(type(nt))
+print(b)
