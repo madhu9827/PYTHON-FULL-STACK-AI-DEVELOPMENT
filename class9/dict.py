@@ -13,3 +13,5 @@ emp['avail']=True
 print(emp)
 del emp['esal']
 print(emp)
+del(emp)
+print(emp) #name error
