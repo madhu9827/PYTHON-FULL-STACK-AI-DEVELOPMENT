@@ -5,3 +5,4 @@ users=resp.json()
 status_code=resp.status_code
 print(users)
 print(status_code)
+print()
