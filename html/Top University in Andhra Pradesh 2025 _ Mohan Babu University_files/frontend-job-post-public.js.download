@@ -1,0 +1,1229 @@
+(function ($) {
+    'use strict';
+
+    var isSubmitting = false;
+
+    $(document).ready(function () {
+        
+        $('form#front-jobpost-form').submit(function(){
+            isSubmitting = true;
+            $('.fjp_package_overlay').show();
+        });
+        $('form#employer-singup-form-edit').submit(function(){
+            isSubmitting = true;
+        });
+        $('form#employer-singup-form').submit(function(){
+            isSubmitting = true;
+        });
+    
+        $('form#front-jobpost-form').data('initial-state', $('form#front-jobpost-form').serialize());
+        $('form#employer-singup-form-edit').data('initial-state', $('form#employer-singup-form-edit').serialize());
+        $('form#employer-singup-form').data('initial-state', $('form#employer-singup-form').serialize())
+
+        // CAL add on JS
+        jQuery('input[type=radio][name=_cal_setting]').change(function() {
+            $(".metabox-field._cal_setting").removeClass("active");
+            $(".metabox-field._cal_setting."+this.value).addClass("active");
+        });
+        // Reset message option for the single jobpost
+        $("#cal-reset-msg-option").on('click',function(){
+           $("#_cal_single_whatsapp_msg").val("I'm interested to apply for the position of {job_title} against the job {job_url}"); 
+        });
+    });
+    
+    $(document).ready(function () {
+
+        /* Date Picker */
+        $('.sjb-date-picker').datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            minDate: 0,
+        });
+    });
+
+    $(document).ready(function () {
+        $('#fjp-logo-close-btn').click(function (e) {
+            e.preventDefault();
+            
+            $('.fjp-company-logo').after('<div class="file"><span>No file chosen</span><div>Browse</div><input title="Company Logo" type="file" name="simple_job_board_company_logo" id="simple_job_board_company_logo" class="front-jobpost-form-attachments sjb-form-control" size="50" style="opacity: 0;"></div>');
+            $('.fjp-company-logo').hide();           
+        });
+
+        /* Date Picker */
+        $('.sjb-date-picker').datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            minDate: 0,
+        });
+    });
+
+    /*How to apply js*/
+    $(document).ready(function () {
+        // Hide/Show Resume Options
+        var showResume = $('#show-resume');
+        var resumeOptions = $('.resume-options');
+
+        showResume.on('change', function () {
+            (this.checked) ? resumeOptions.show() : resumeOptions.hide();
+        });
+
+        // Hide/Show Apply Instruction Notes
+        var apply = $('.apply');
+        var applyTo = $('#apply-to-instructions, #meta-apply-instructions');
+        var applyInstructions = $('.sjb-append-texarea');
+
+        apply.on('change', function () {
+            if (applyTo.is(":checked")) {
+
+                // Show Apply Instruction Section
+                applyInstructions.show();
+            } else {
+                // Hide Apply Instruction Section
+                applyInstructions.hide();
+            }
+        });
+
+        // Font Awesome Icon Picker
+        if ($('.fjp-job-feature-icon').length) {
+            $('.fjp-job-feature-icon').iconpicker({placement: 'bottomRight'});
+        }
+    });
+
+    var file = {
+        maxlength: 20, // maximum length of filename before it's trimmed
+
+        convert: function () {
+            // Convert all file type inputs.
+            $('input[type=file].front-jobpost-form-attachments').each(function () {
+                $(this).wrap('<div class="file" />');
+                $(this).parent().prepend('<div>Browse</div>');
+                $(this).parent().prepend('<span>No file chosen</span>');
+                $(this).fadeTo(0, 0);
+                $(this).attr('size', '50'); // Use this to adjust width for FireFox.
+            });
+        },
+        update: function (filename) {
+            if (filename == '')
+                filename = 'No file chosen';
+            x.siblings('span').html(filename);
+        }
+    }
+
+    $(document).ready(function () {
+        file.convert();
+
+        $('.fjp-company-logo-change').on('change', '.front-jobpost-form-attachments', function () {
+
+            var fileName = '';
+            if (this.files && this.files.length > 1) {
+                fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+            } else {
+                fileName = $(this).val().replace(/^.*\\/g, '');
+                $('file').children('span:first').text(fileName);
+            }
+
+            if (fileName == '')
+                fileName = 'No file chosen';
+            $(this).siblings('span').html(fileName);
+        });
+
+        $('.file').on('change', '.front-jobpost-form-attachments', function () {
+
+            var fileName = '';
+            if (this.files && this.files.length > 1) {
+                fileName = (this.getAttribute('data-multiple-caption') || '').replace('{count}', this.files.length);
+            } else {
+                fileName = $(this).val().replace(/^.*\\/g, '');
+                $('file').children('span:first').text(fileName);
+            }
+
+            if (fileName == '')
+                fileName = 'No file chosen';
+            $(this).siblings('span').html(fileName);
+        });
+
+        /** 
+         * Check for Allowable Extensions of Uploaded File
+         *  
+         * @since   1.0.0          
+         */
+        $('#simple_job_board_company_logo').on('change', function () {
+            var file = $(this);
+            var file_id = file.attr("id");
+            // Validate on File Attachment
+            if (0 != file.get(0).files.length) {
+
+                /**
+                 *  Uploded File Extensions Checks
+                 *  Get Uploded File Ext
+                 */
+                var file_ext = file.val().split('.').pop().toLowerCase();
+                // All Allowed File Extensions
+                var allowed_file_exts = ['jpeg', 'jpg', 'png'];
+                // File Extension Validation
+                if (!($.inArray(file_ext, allowed_file_exts) > -1)) {
+                    alert(front_application_form.settings_jquery_alerts['not_allowed_extension']);
+                    file.parent().find('span').text('No file chosen');
+                } else if (file[0].files[0].size > 2000000)
+                {
+                    alert(front_application_form.settings_jquery_alerts['file_too_large']);
+                    file.parent().find('span').text('No file chosen');
+                }
+            }
+        });
+
+        $
+        /**
+         * Delete a job
+         * 
+         * @since   1.0.0
+         */
+        $('.sjb-dashboard #job-posted .job-posted .job-publish li .delete-job').on('click', function (e) {
+
+            var current_job = $(this);
+            e.preventDefault();
+            if (confirm(front_application_form.settings_jquery_alerts.delete_job))
+            {
+                var job_data = {
+                    'action': 'sjb_delete_user_job',
+                    'job_id': current_job.data("jobid")
+                };
+                jQuery.post(front_application_form.ajaxurl, job_data, function (response) {
+
+                    current_job.closest(".sjb-dashboard .tab_container.tab-content #job-posted .job-posted").remove();
+                    if($('.job-posted').length == 0){
+                        var create_job_btn = $('.sjb-dashboard .tab_container.tab-content #job-posted .row .div-create-job .btn-create-job');
+                        $('.sjb-dashboard .tab_container.tab-content #job-posted .row').remove();
+                        if(create_job_btn.length != 0 ){
+                            $('.sjb-dashboard .tab_container.tab-content #job-posted .no-job-found-message').show();
+                        }else{
+                            $('.sjb-dashboard .tab_container.tab-content #job-posted .create-job-message').show();
+                        }
+                    } 
+                    $('.sjb-dashboard .tab_container.tab-content #job-posted .alert-massage-success').slideDown();
+                });
+            }
+        });
+
+         /**
+         * Delete a resume
+         * 
+         * @since   1.0.0
+         */
+          $('.sjb-dashboard #resume-manager form.fjp_csv_date_export .sjb-table.sjb-resume.posts tr .column-title .row-actions .delete-job').on('click', function (e) {
+
+            var current_job = $(this);
+            e.preventDefault();
+            if (confirm(front_application_form.settings_jquery_alerts.delete_resume_perm))
+            {
+                var job_data = {
+                    'action': 'sjb_delete_user_job',
+                    'job_id': current_job.data("jobid")
+                };
+                jQuery.post(front_application_form.ajaxurl, job_data, function (response) {
+                    
+                    current_job.closest(".sjb-dashboard #resume-manager form.fjp_csv_date_export .sjb-table.sjb-resume.posts tr").remove();
+                    $('.sjb-dashboard .tab_container.tab-content #resume-manager .alert-massage-success').slideDown();
+                    if($('.sjb-dashboard #resume-manager form.fjp_csv_date_export .sjb-table.sjb-resume.posts tr').length <= 1){
+                        $('.sjb-dashboard #resume-manager form.fjp_csv_date_export .sjb-table.sjb-resume.posts tbody').append('<tr class="no-resume-found-message"><td colspan="6">' + front_application_form.settings_jquery_alerts.no_resumes_available + '</td></tr>');
+                    }
+                });
+            }
+        });
+
+        // tabbed content
+        $(".tab_content").hide();
+        $(".tab_content:first").show();
+
+        /* if in tab mode */
+        $("ul.tabs li").click(function () {
+
+            $(".tab_content").hide();
+            var activeTab = $(this).attr("rel");
+            window.location.hash = activeTab;
+            $("#" + activeTab).fadeIn();
+
+            $("ul.tabs li").removeClass("active");
+            $(this).addClass("active");
+
+            $(".tab_drawer_heading").removeClass("d_active");
+            $(".tab_drawer_heading[rel^='" + activeTab + "']").addClass("d_active");
+
+            if (location.search && activeTab != 'resume-manager') {
+                var newUrl = location.href.replace(location.search, '');
+                document.location = newUrl;
+            }
+        });
+
+        /* if in drawer mode */
+        $(".tab_drawer_heading").click(function () {
+
+            $(".tab_content").hide();
+            var d_activeTab = $(this).attr("rel");
+            $("#" + d_activeTab).fadeIn();
+
+            $(".tab_drawer_heading").removeClass("d_active");
+            $(this).addClass("d_active");
+
+            $("ul.tabs li").removeClass("active");
+            $("ul.tabs li[rel^='" + d_activeTab + "']").addClass("active");
+        });
+
+        /* Display Tabs Previous State on Form Submit */
+        if (window.location.hash.length > 0) {
+            $(".tab_content").hide();
+            var activeTab = window.location.hash;
+            activeTab = activeTab.replace("#", "");
+            $("#" + activeTab).fadeIn();
+
+            $("ul.tabs li").removeClass("active");
+            $("[rel^='" + activeTab + "']").addClass("active");
+
+            $(".tab_drawer_heading").removeClass("d_active");
+            $(".tab_drawer_heading[rel^='" + activeTab + "']").addClass("d_active");
+        }
+
+        /* Extra class "tab_last" 
+         to add border to right side
+         of last tab */
+        $('ul.tabs li').last().addClass("tab_last");
+
+    });
+
+    $(function () {
+
+        var rx_pP = "[\\x21-\\x23\\x25-\\x2A\\x2C-\\x2F\\x3A\\x3B\\x3F\\x40\\x5B-\\x5D\\x5F\\x7B\\x7D\\xA1\\xA7\\xAB\\xB6\\xB7\\xBB\\xBF\\u037E\\u0387\\u055A-\\u055F\\u0589\\u058A\\u05BE\\u05C0\\u05C3\\u05C6\\u05F3\\u05F4\\u0609\\u060A\\u060C\\u060D\\u061B\\u061E\\u061F\\u066A-\\u066D\\u06D4\\u0700-\\u070D\\u07F7-\\u07F9\\u0830-\\u083E\\u085E\\u0964\\u0965\\u0970\\u0AF0\\u0DF4\\u0E4F\\u0E5A\\u0E5B\\u0F04-\\u0F12\\u0F14\\u0F3A-\\u0F3D\\u0F85\\u0FD0-\\u0FD4\\u0FD9\\u0FDA\\u104A-\\u104F\\u10FB\\u1360-\\u1368\\u1400\\u166D\\u166E\\u169B\\u169C\\u16EB-\\u16ED\\u1735\\u1736\\u17D4-\\u17D6\\u17D8-\\u17DA\\u1800-\\u180A\\u1944\\u1945\\u1A1E\\u1A1F\\u1AA0-\\u1AA6\\u1AA8-\\u1AAD\\u1B5A-\\u1B60\\u1BFC-\\u1BFF\\u1C3B-\\u1C3F\\u1C7E\\u1C7F\\u1CC0-\\u1CC7\\u1CD3\\u2010-\\u2027\\u2030-\\u2043\\u2045-\\u2051\\u2053-\\u205E\\u207D\\u207E\\u208D\\u208E\\u2308-\\u230B\\u2329\\u232A\\u2768-\\u2775\\u27C5\\u27C6\\u27E6-\\u27EF\\u2983-\\u2998\\u29D8-\\u29DB\\u29FC\\u29FD\\u2CF9-\\u2CFC\\u2CFE\\u2CFF\\u2D70\\u2E00-\\u2E2E\\u2E30-\\u2E44\\u3001-\\u3003\\u3008-\\u3011\\u3014-\\u301F\\u3030\\u303D\\u30A0\\u30FB\\uA4FE\\uA4FF\\uA60D-\\uA60F\\uA673\\uA67E\\uA6F2-\\uA6F7\\uA874-\\uA877\\uA8CE\\uA8CF\\uA8F8-\\uA8FA\\uA8FC\\uA92E\\uA92F\\uA95F\\uA9C1-\\uA9CD\\uA9DE\\uA9DF\\uAA5C-\\uAA5F\\uAADE\\uAADF\\uAAF0\\uAAF1\\uABEB\\uFD3E\\uFD3F\\uFE10-\\uFE19\\uFE30-\\uFE52\\uFE54-\\uFE61\\uFE63\\uFE68\\uFE6A\\uFE6B\\uFF01-\\uFF03\\uFF05-\\uFF0A\\uFF0C-\\uFF0F\\uFF1A\\uFF1B\\uFF1F\\uFF20\\uFF3B-\\uFF3D\\uFF3F\\uFF5B\\uFF5D\\uFF5F-\\uFF65]|\\uD800[\\uDD00-\\uDD02\\uDF9F\\uDFD0]|\\uD801\\uDD6F|\\uD802[\\uDC57\\uDD1F\\uDD3F\\uDE50-\\uDE58\\uDE7F\\uDEF0-\\uDEF6\\uDF39-\\uDF3F\\uDF99-\\uDF9C]|\\uD804[\\uDC47-\\uDC4D\\uDCBB\\uDCBC\\uDCBE-\\uDCC1\\uDD40-\\uDD43\\uDD74\\uDD75\\uDDC5-\\uDDC9\\uDDCD\\uDDDB\\uDDDD-\\uDDDF\\uDE38-\\uDE3D\\uDEA9]|\\uD805[\\uDC4B-\\uDC4F\\uDC5B\\uDC5D\\uDCC6\\uDDC1-\\uDDD7\\uDE41-\\uDE43\\uDE60-\\uDE6C\\uDF3C-\\uDF3E]|\\uD807[\\uDC41-\\uDC45\\uDC70\\uDC71]|\\uD809[\\uDC70-\\uDC74]|\\uD81A[\\uDE6E\\uDE6F\\uDEF5\\uDF37-\\uDF3B\\uDF44]|\\uD82F\\uDC9F|\\uD836[\\uDE87-\\uDE8B]|\\uD83A[\\uDD5E\\uDD5F]";
+        var rx_pS = "[\\x24\\x2B\\x3C-\\x3E\\x5E\\x60\\x7C\\x7E\\xA2-\\xA6\\xA8\\xA9\\xAC\\xAE-\\xB1\\xB4\\xB8\\xD7\\xF7\\u02C2-\\u02C5\\u02D2-\\u02DF\\u02E5-\\u02EB\\u02ED\\u02EF-\\u02FF\\u0375\\u0384\\u0385\\u03F6\\u0482\\u058D-\\u058F\\u0606-\\u0608\\u060B\\u060E\\u060F\\u06DE\\u06E9\\u06FD\\u06FE\\u07F6\\u09F2\\u09F3\\u09FA\\u09FB\\u0AF1\\u0B70\\u0BF3-\\u0BFA\\u0C7F\\u0D4F\\u0D79\\u0E3F\\u0F01-\\u0F03\\u0F13\\u0F15-\\u0F17\\u0F1A-\\u0F1F\\u0F34\\u0F36\\u0F38\\u0FBE-\\u0FC5\\u0FC7-\\u0FCC\\u0FCE\\u0FCF\\u0FD5-\\u0FD8\\u109E\\u109F\\u1390-\\u1399\\u17DB\\u1940\\u19DE-\\u19FF\\u1B61-\\u1B6A\\u1B74-\\u1B7C\\u1FBD\\u1FBF-\\u1FC1\\u1FCD-\\u1FCF\\u1FDD-\\u1FDF\\u1FED-\\u1FEF\\u1FFD\\u1FFE\\u2044\\u2052\\u207A-\\u207C\\u208A-\\u208C\\u20A0-\\u20BE\\u2100\\u2101\\u2103-\\u2106\\u2108\\u2109\\u2114\\u2116-\\u2118\\u211E-\\u2123\\u2125\\u2127\\u2129\\u212E\\u213A\\u213B\\u2140-\\u2144\\u214A-\\u214D\\u214F\\u218A\\u218B\\u2190-\\u2307\\u230C-\\u2328\\u232B-\\u23FE\\u2400-\\u2426\\u2440-\\u244A\\u249C-\\u24E9\\u2500-\\u2767\\u2794-\\u27C4\\u27C7-\\u27E5\\u27F0-\\u2982\\u2999-\\u29D7\\u29DC-\\u29FB\\u29FE-\\u2B73\\u2B76-\\u2B95\\u2B98-\\u2BB9\\u2BBD-\\u2BC8\\u2BCA-\\u2BD1\\u2BEC-\\u2BEF\\u2CE5-\\u2CEA\\u2E80-\\u2E99\\u2E9B-\\u2EF3\\u2F00-\\u2FD5\\u2FF0-\\u2FFB\\u3004\\u3012\\u3013\\u3020\\u3036\\u3037\\u303E\\u303F\\u309B\\u309C\\u3190\\u3191\\u3196-\\u319F\\u31C0-\\u31E3\\u3200-\\u321E\\u322A-\\u3247\\u3250\\u3260-\\u327F\\u328A-\\u32B0\\u32C0-\\u32FE\\u3300-\\u33FF\\u4DC0-\\u4DFF\\uA490-\\uA4C6\\uA700-\\uA716\\uA720\\uA721\\uA789\\uA78A\\uA828-\\uA82B\\uA836-\\uA839\\uAA77-\\uAA79\\uAB5B\\uFB29\\uFBB2-\\uFBC1\\uFDFC\\uFDFD\\uFE62\\uFE64-\\uFE66\\uFE69\\uFF04\\uFF0B\\uFF1C-\\uFF1E\\uFF3E\\uFF40\\uFF5C\\uFF5E\\uFFE0-\\uFFE6\\uFFE8-\\uFFEE\\uFFFC\\uFFFD]|\\uD800[\\uDD37-\\uDD3F\\uDD79-\\uDD89\\uDD8C-\\uDD8E\\uDD90-\\uDD9B\\uDDA0\\uDDD0-\\uDDFC]|\\uD802[\\uDC77\\uDC78\\uDEC8]|\\uD805\\uDF3F|\\uD81A[\\uDF3C-\\uDF3F\\uDF45]|\\uD82F\\uDC9C|\\uD834[\\uDC00-\\uDCF5\\uDD00-\\uDD26\\uDD29-\\uDD64\\uDD6A-\\uDD6C\\uDD83\\uDD84\\uDD8C-\\uDDA9\\uDDAE-\\uDDE8\\uDE00-\\uDE41\\uDE45\\uDF00-\\uDF56]|\\uD835[\\uDEC1\\uDEDB\\uDEFB\\uDF15\\uDF35\\uDF4F\\uDF6F\\uDF89\\uDFA9\\uDFC3]|\\uD836[\\uDC00-\\uDDFF\\uDE37-\\uDE3A\\uDE6D-\\uDE74\\uDE76-\\uDE83\\uDE85\\uDE86]|\\uD83B[\\uDEF0\\uDEF1]|\\uD83C[\\uDC00-\\uDC2B\\uDC30-\\uDC93\\uDCA0-\\uDCAE\\uDCB1-\\uDCBF\\uDCC1-\\uDCCF\\uDCD1-\\uDCF5\\uDD10-\\uDD2E\\uDD30-\\uDD6B\\uDD70-\\uDDAC\\uDDE6-\\uDE02\\uDE10-\\uDE3B\\uDE40-\\uDE48\\uDE50\\uDE51\\uDF00-\\uDFFF]|\\uD83D[\\uDC00-\\uDED2\\uDEE0-\\uDEEC\\uDEF0-\\uDEF6\\uDF00-\\uDF73\\uDF80-\\uDFD4]|\\uD83E[\\uDC00-\\uDC0B\\uDC10-\\uDC47\\uDC50-\\uDC59\\uDC60-\\uDC87\\uDC90-\\uDCAD\\uDD10-\\uDD1E\\uDD20-\\uDD27\\uDD30\\uDD33-\\uDD3E\\uDD40-\\uDD4B\\uDD50-\\uDD5E\\uDD80-\\uDD91\\uDDC0]";
+        /*Job Application Field Type change*/
+        $('#jobapp_field_type').on('change', function (e) {
+            var fieldType = $(this).val();
+            if (fieldType == 'checkbox' || fieldType == 'dropdown' || fieldType == 'radio') {
+                $('#jobapp_field_options').show();
+            } else {
+                $('#jobapp_field_options').hide();
+                $('#jobapp_field_options').val('');
+            }
+        });
+        /*Add Application Field (Group Fields)*/
+        $('#addField').on("click", function (e) {
+            // Regex Experession for all language characters
+            var rgx_exp = new RegExp(rx_pP + "|" + rx_pS, "g");
+            var fieldNameRaw = $('#jobapp_name').val(); // Get Raw value.
+            fieldNameRaw = fieldNameRaw.trim(); // Remove White Spaces from both ends.
+            var fieldName = fieldNameRaw.split(' ').join('_').toLowerCase().replace(rgx_exp, "_"); //Replace white space with _.
+            var fieldType = $('#jobapp_field_type').val();
+            var fieldOptions = $('#jobapp_field_options').val();
+            var fieldRequired = $("#jobapp_required_field").val();
+
+            if ($("#jobapp_required_field").prop("checked") == true) {
+                fieldRequired = 'checked';
+            } else {
+                fieldRequired = 'unchecked';
+            }
+
+            var applicantColumns = '';
+            if ($('#jobapp-applicant-columns').is(':checked'))
+            {
+                applicantColumns = 'checked';
+            } else {
+                applicantColumns = 'unchecked';
+            }
+
+            var fieldTypeHtml = $('#jobapp_field_type').html();
+            if (fieldName != '') {
+                if (!(fieldType == 'checkbox' || fieldType == 'dropdown' || fieldType == 'radio')) {
+
+                    $('#job-application-sort').append('<div class="jobapp_' + fieldName + ' ui-sortable-handle"><div class="sjb-form-group sjb-row">\n\
+						<div class="sjb-col-md-3"><label class="sjb-editable-label">' + fieldNameRaw + '</label>\n\
+                        <input type="hidden" class="sjb-form-control" name="jobapp_' + fieldName + '[label]" value="' + fieldNameRaw + '"></div>\n\
+                        <div class="sjb-col-md-3"><select class="sjb-form-control jobapp_field_type" name="jobapp_' + fieldName + '[type]">' + fieldTypeHtml + '</select>\n\
+                        <input type="text" class="jobapp-field-options sjb-form-control" name="jobapp_' + fieldName + '[options]" value="' + fieldOptions + '" placeholder="Option1, option2, option3" style="display:none;"></div>\n\
+                        <div class="sjb-col-md-2"><label for="jobapp-required-field-'+fieldName+'" class="small"><input type="checkbox" id="jobapp-required-field-'+fieldName+'" class="jobapp-required-field" value="' + fieldRequired + '" ' + fieldRequired + '>\n\
+                        ' + front_application_form.settings_jquery_alerts['required'] + '<input type="hidden" class="jobapp-optional-field" name="jobapp_' + fieldName + '[optional]" value="' + fieldRequired + '"></label></div>\n\
+                        <div class="sjb-col-md-2"><label for="" class="small"><input type="radio" class="applicant-columns" name="[applicant_column]" ' + applicantColumns + '>' + front_application_form.settings_jquery_alerts['applicant_listing_col'] + '\n\
+                        <input type="hidden" class="jobapp-applicant-column" name="jobapp_' + fieldName + '[applicant_column]" value="' + applicantColumns + '"></label></div>\n\
+						<div class="sjb-col-md-2"><button type="button" class="removeField">' + front_application_form.settings_jquery_alerts['delete'] + '</button></div>\n\
+                        </div></div>');
+                    $('.' + fieldName + ' .' + fieldType).attr('selected', 'selected');
+                    $('#jobapp_name').val('');
+                    $('#jobapp_field_type').val('text');
+                    $('#jobapp_required_field').prop("checked", true);
+                    $('#jobapp-applicant-columns').prop("checked", false);
+                } else {
+                    var inputOption = $('#jobapp_field_options').val();
+                    if (inputOption != '') {
+                        $('#job-application-sort').append('<div class="' + fieldName + ' ui-sortable-handle"><div class="sjb-form-group sjb-row">\n\
+						<div class="sjb-col-md-3"><label class="sjb-editable-label">' + fieldNameRaw + '</label>\n\
+                        <input type="hidden" class="sjb-form-control" name="jobapp_' + fieldName + '[label]" value="' + fieldNameRaw + '"></div>\n\
+                        <div class="sjb-col-md-3"><select class="sjb-form-control jobapp_field_type" name="jobapp_' + fieldName + '[type]">' + fieldTypeHtml + '</select>\n\
+                        <input type="text" class="jobapp-field-options sjb-form-control" name="jobapp_' + fieldName + '[options]" value="' + fieldOptions + '" placeholder="Option1, option2, option3" ></div>\n\
+                        <div class="sjb-col-md-2"><label for="jobapp-required-field-'+fieldName+'" class="small"><input type="checkbox" id="jobapp-required-field-'+fieldName+'" class="jobapp-required-field" value="' + fieldRequired + '" ' + fieldRequired + '>\n\
+                        ' + front_application_form.settings_jquery_alerts['required'] + '<input type="hidden" class="jobapp-optional-field" name="jobapp_' + fieldName + '[optional]" value="' + fieldRequired + '"></label></div>\n\
+                        <div class="sjb-col-md-2"><label for="" class="small"><input type="radio" class="applicant-columns" name="[applicant_column]" ' + applicantColumns + '>' + front_application_form.settings_jquery_alerts['applicant_listing_col'] + '\n\
+                        <input type="hidden" class="jobapp-applicant-column" name="jobapp_' + fieldName + '[applicant_column]" value="' + applicantColumns + '"></label></div>\n\
+						<div class="sjb-col-md-2"><button type="button" class="removeField">' + front_application_form.settings_jquery_alerts['delete'] + '</button></div>\n\
+                        </div></div>');
+                        $('.' + fieldName + ' .' + fieldType).attr('selected', 'selected');
+                        $('#jobapp_name').val('');
+                        $('#jobapp_field_type').val('text');
+                        $('#jobapp_field_options').val('');
+                        $('#jobapp_field_options').hide();
+                        $('#jobapp_required_field').prop("checked", true);
+                    } else {
+                        alert(front_application_form.settings_jquery_alerts['empty_field_value']);
+                    }
+                }
+            } else {
+                alert(front_application_form.settings_jquery_alerts['empty_field_name']);
+                $('#jobapp_name').focus(); //Keep focus on this input
+            }
+
+            // Call sjb_editable_label() function for newly added form field.
+            $(".sjb-editable-label").each(function () {
+                sjb_editable_label($(this));
+            });
+        });
+        /* Job Application Field Type change (added) */
+        $('#app_form_fields').on('change', '.jobapp_field_type', function () {
+            var fieldType = $(this).val();
+            if (fieldType == 'checkbox' || fieldType == 'dropdown' || fieldType == 'radio') {
+                $(this).next().show();
+            } else {
+                $(this).next().hide();
+            }
+        });
+        /* Change the Required & Optional Field Parameter*/
+        $('#app_form_fields').on("change", '.jobapp-required-field', function () {
+            var input = $(this);
+            input.attr("checked") ? input.next().val("checked") : input.next().val("unchecked");
+        });
+        /* Change the Radio Button Check */
+        $('#app_form_fields').on("change", '.applicant-columns', function () {
+            $(".applicant-columns").each(function () {
+                var input = $(this);
+                if (input.attr("checked")) {
+                    input.removeAttr('checked');
+                    input.next().val("unchecked");
+                } else {
+                }
+            });
+            $(this).next().val("checked");
+            $(this).prop('checked', true);
+        });
+        // Add Job Feature
+        $('#addFeature').click(function () {
+
+            // Regex Experession for all language characters
+            var rgx_exp = new RegExp(rx_pP + "|" + rx_pS, "g");
+            var fieldNameRaw = $('#jobfeature_name').val(); // Get Raw value.
+            fieldNameRaw = fieldNameRaw.trim(); // Remove White Spaces from both ends.
+            var fieldName = fieldNameRaw.split(' ').join('_').toLowerCase().replace(rgx_exp, "_"); //Replace white space with _.
+            var fieldVal = $('#jobfeature_value').val();
+            fieldVal = fieldVal.trim();
+            var icon_val = $('#fjp_job_feature_icon').val();
+
+            if (fieldName != '' && fieldVal != '') {
+                if (icon_val != undefined && icon_val != '') {
+                    $('#job_features').append('<div class="' + fieldName + '"><div class="sjb-form-group sjb-row"><div class="sjb-col-md-3"><label class="sjb-editable-label">' + fieldNameRaw + '</label><input type="hidden" name="jobfeature_' + fieldName + '[label]" value="' + fieldNameRaw + '"></div><div class="sjb-col-md-3"><input type="text" placeholder="Value" class="sjb-form-control" name="jobfeature_' + fieldName + '[value]" value="' + fieldVal + '"></div><div class="sjb-col-md-3"><input type="text" id="icon_' + icon_val + '" class="fjp-job-feature-icon" name="icon_jobfeature_' + fieldName + '" value="' + icon_val + '"/><span class="input-group-addon"><i class="fa ' + icon_val + '"></i></span></div><div class="sjb-col-md-3"><button type="button" class="removeField">' + front_application_form.settings_jquery_alerts['delete'] + '</button></div></div></div>');
+                    $('#jobfeature_name').val(""); // Reset Field value
+                    $('#jobfeature_value').val(""); // Reset Field value
+                    $('#fjp_job_feature_icon').val("fa fa-briefcase"); // Reset Field value
+                    $('.sjb_add_icon_fields .input-group-addon i').removeClass();
+                    $('.sjb_add_icon_fields .input-group-addon i').addClass("fa fa-briefcase");
+
+                } else {
+                    $('#job_features').append('<div class="' + fieldName + '"><div class="sjb-form-group sjb-row"><div class="sjb-col-md-4"><label class="sjb-editable-label">' + fieldNameRaw + '</label><input type="hidden" name="jobfeature_' + fieldName + '[label]" value="' + fieldNameRaw + '"></div><div class="sjb-col-md-4"><input type="text" placeholder="Value" class="sjb-form-control" name="jobfeature_' + fieldName + '[value]" value="' + fieldVal + '"></div><div class="sjb-col-md-4"><button type="button" class="removeField">' + front_application_form.settings_jquery_alerts['delete'] + '</button></div></div></div>');
+                    $('#jobfeature_name').val(""); // Reset Field value
+                    $('#jobfeature_value').val(""); // Reset Field value
+                }
+            } else {
+                alert(front_application_form.settings_jquery_alerts['empty_feature_name']);
+                $('#jobfeature_name').focus(); // Keep focus on this input
+            }
+
+            // Call sjb_editable_label() function for newly added features.
+            $(".sjb-editable-label").each(function () {
+                sjb_editable_label($(this));
+            });
+        });
+        // Remove Job app or job Feature Fields
+        $('.jobpost_fields').on('click', 'button.removeField', function () {
+            $(this).parents().eq(2).remove();
+        });
+
+        // Call sjb_editable_label() function for previously added fields or features.
+        $(".sjb-editable-label").each(function () {
+            sjb_editable_label($(this));
+        });
+
+        // Edit Form Builder Labels with class 'sjb-editable-label'
+        function sjb_editable_label(label_class){
+            
+            // Regex Experession for all language characters
+            var rgx_exp = new RegExp(rx_pP + "|" + rx_pS, "g");
+            if(label_class != undefined){
+                // Reference the Label.
+                var label = label_class;
+                // Add a TextBox next to the Label.
+                label.after('<input type="text" class="sjb-form-control" style = "display:none;">');
+                // Reference the TextBox.
+                var textbox = label.next();
+                // Assign the value of Label to TextBox.
+                textbox.val(label.html());
+                // On label click
+                label.click(function () {
+                    label.hide();
+                    textbox.show();
+                    textbox.focus();
+                });
+                // When focus is lost from TextBox, hide TextBox and show Label.
+                textbox.focusout(function () {
+
+                    // Get current & parent elements of label
+                    var label = $(this);
+                    label.hide();
+                    label.prev().html(label.val());
+                    label.next().val(label.val());
+                    // Key generator for keys
+                    var key = label.val().trim(); // Remove White Spaces from both ends.
+                    var key = key.split(' ').join('_').toLowerCase().replace(rgx_exp, "_"); //Replace white space with _.
+                    
+                    if ('app_form_fields' === label.parents(':eq(4)').attr('id')) {
+                        var element_class = label.parents().eq(2).attr('class').split(' ')[0];
+                        var element = $('.' + element_class);
+
+                        // Update indexes of all fields
+                        label.next().attr('name', 'jobapp_' + key + '[label]');
+                        element.find(".jobapp_field_type").attr('name', 'jobapp_' + key + '[type]');
+                        element.find(".jobapp-field-options").attr('name', 'jobapp_' + key + '[options]');
+                        element.find(".jobapp-optional-field").attr('name', 'jobapp_' + key + '[optional]');
+                        element.find(".jobapp-applicant-column").attr('name', 'jobapp_' + key + '[applicant_column]');
+                        $('.' + element_class).removeClass(element_class).addClass('jobapp_' + key);
+                    } else if ('settings_app_form_fields' === label.parents(':eq(3)').attr('id')) {
+
+                        var element_class = label.parents(':eq(2)').attr('class').split(' ')[0];
+                        var element = $('.' + element_class);
+                        // Update indexes of all fields
+                        label.next().attr('name', 'jobapp_' + key + '[label]');
+                        element.find(".settings_jobapp_field_type").attr('name', 'jobapp_' + key + '[type]');
+                        element.find(".settings-field-options").attr('name', 'jobapp_' + key + '[option]');
+                        element.find(".settings-jobapp-optional-field").attr('name', 'jobapp_' + key + '[optional]');
+                        element.find(".settings-jobapp-applicant-column").attr('name', 'jobapp_' + key + '[applicant_column]');
+                        $('.' + element_class).removeClass(element_class).addClass('jobapp_' + key);
+                    } else {
+                    
+                        // Update indexes of all fields                    
+                        label.next().attr('name', 'jobfeature_' + key + '[label]');
+                        label.parent().next().children().eq(0).attr('id', 'jobfeature_' + key + '[value]');
+                        label.parent().next().children().eq(0).attr('name', 'jobfeature_' + key + '[value]');
+                    }
+
+                    label.prev().show();
+                });
+            }
+        }
+      
+        // Check and uncheck the required checkbox
+        $('.jobapp-required-field').click(function () {
+            if ($(this).prop("checked") == true) {
+                $(this).val("checked");
+                $(this).attr('checked', 'checked');
+
+            } else if ($(this).prop("checked") == false) {
+                $(this).val("unchecked");
+                $(this).removeAttr('checked');
+            }
+        });
+        $('.settings-jobapp-required-field').click(function () {
+            if ($(this).prop("checked") == true) {
+                $(this).val("checked");
+                $(this).attr('checked', 'checked');
+            } else if ($(this).prop("checked") == false) {
+                $(this).val("unchecked");
+                $(this).removeAttr('checked');
+            }
+        });
+        var feature_form = $("#job_feature_form");
+        var jobapp_form = $("#job_app_form");
+        /* Setting Page -> Job Feature Settings */
+        $('#settings_addFeature').on("click", function () {
+
+            // Regular expression for all languages' characters
+            var rgx_exp = new RegExp(rx_pP + "|" + rx_pS, "g");
+            var field_name_raw = $('#settings_jobfeature_name').val(); // Get Raw value.
+            var job_feature_value = $('#settings_jobfeature_value').val(); //Job Feature value
+            field_name_raw = field_name_raw.trim(); // Remove White Spaces from both ends.
+            var fieldName = field_name_raw.split(' ').join('_').toLowerCase().replace(rgx_exp, "_"); //Replace white space with _ & sanitize key. 
+            var icon_value = $('#fjp_settings_job_feature_icon').val();
+
+
+            if (fieldName != '') {
+                var jobfeature_value_textbox;
+                if ('' == job_feature_value) {
+                    jobfeature_value_textbox = '<input type="hidden" value="empty" name="jobfeature_' + fieldName + '[value]">';
+                } else {
+                    jobfeature_value_textbox = '<input type="text" value="' + job_feature_value + '" name="jobfeature_' + fieldName + '[value]" class="sjb-form-control">';
+                }
+                if (icon_value != undefined && icon_value != '') {
+                    $('#settings_job_features').append('<div class="jobfeature_' + fieldName + '"><div class="sjb-form-group sjb-row"><div class="sjb-col-md-2"><label class="sjb-editable-label">' + field_name_raw + '</label>' +
+                            '<input type="hidden" name="jobfeature_' + fieldName + '[label]" value="' + field_name_raw + '"></div>' +
+                            '<div class="sjb-col-md-3">' + jobfeature_value_textbox + '</div>' +
+                            '<div class="sjb-col-md-3"><input type="text" class="fjp-job-feature-icon" value="' + icon_value + '" name=" icon_jobfeature_' + icon_value + '[value]"></div>' +
+                            '<div class="sjb-col-md-2"><button type="button" class="removeField">' + front_application_form.settings_jquery_alerts['delete'] + '</button></div></div></div>');
+                    $('#settings_jobfeature_name').val(""); //Reset Field value.
+                    $('#settings_jobfeature_value').val(""); //Reset Field value.
+                    $('#fjp_settings_job_feature_icon').val("fa fa-briefcase");
+                    $('.sjb_add_icon_fields .input-group-addon i').removeClass();
+                    $('.sjb_add_icon_fields .input-group-addon i').addClass("fa fa-briefcase");
+                } else {
+                    $('#settings_job_features').append('<div class="jobfeature_' + fieldName + '"><div class="sjb-form-group sjb-row"><div class="sjb-col-md-2"><label class="sjb-editable-label">' + field_name_raw + '</label>' +
+                            '<input type="hidden" name="jobfeature_' + fieldName + '[label]" value="' + field_name_raw + '"></div>' +
+                            '<div class="sjb-col-md-6">' + jobfeature_value_textbox + '</div>' +
+                            '<div class="sjb-col-md-2"><button type="button" class="removeField">' + front_application_form.settings_jquery_alerts['delete'] + '</button></div></div></div>');
+                    $('#settings_jobfeature_name').val(""); //Reset Field value.
+                    $('#settings_jobfeature_value').val(""); //Reset Field value.
+                }
+            } else {
+
+                /* Empty Job Feature Alert -> Making Translation Ready String Through Script Locaization */
+                alert(front_application_form.settings_jquery_alerts['empty_feature_name']);
+                $('#settings_jobfeature_name').focus(); //Keep focus on this input
+            }
+
+            // Call sjb_editable_label() function for newly added features in settings.
+            $(".sjb-editable-label").each(function () {
+                sjb_editable_label($(this));
+            });
+        });
+        /* Remove Job App or Job Feature Fields */
+        $('.settings-fields').on('click', 'button.removeField', function () {
+
+            $(this).parents().eq(2).remove();
+        });
+        /* On Click Save button */
+        $('#jobfeature_form').on('click', function () {
+            feature_form.submit();
+        });
+        /* Setting Page -> Job Application Form Fields */
+        $('#app_add_field').on("click", function () {
+
+            // Regular expression for all languages' characters
+            var rgx_exp = new RegExp(rx_pP + "|" + rx_pS, "g");
+            var app_field_raw = $('#setting_jobapp_name').val(); // Get Raw value.
+            app_field_raw = app_field_raw.trim(); // Remove White Spaces from both ends.
+            var app_field_name = app_field_raw.split(' ').join('_').toLowerCase().replace(rgx_exp, "_"); //Replace white space with _.
+            var app_field_type = $('#settings-jobapp-field-types').val();
+            var field_options = $('#settings_jobapp_field_options');
+            var fieldOptions = field_options.val();
+
+            var isRequired = $("#settings-jobapp-required-field").val();
+            if ($("#settings-jobapp-required-field").prop("checked") == true) {
+                isRequired = 'checked'
+            } else {
+                isRequired = 'unchecked';
+            }
+
+            var applicantColumns = '';
+            if ($('#settings-jobapp-applicant-columns').is(':checked'))
+            {
+                applicantColumns = 'checked';
+            } else {
+                applicantColumns = 'unchecked';
+            }
+
+            var fieldTypeHtml = $('#settings-jobapp-field-types').html();
+            if (app_field_name != '') {
+
+                // Show Options for [Checkbox],[Radio] and [Dropdown]
+                var application_field_option;
+                if (!('checkbox' === app_field_type || 'dropdown' === app_field_type || 'radio' === app_field_type)) {
+                    application_field_option = '<input type="text" class="settings-field-options sjb-form-control" name="jobapp_' + app_field_name + '[option]" value="' + fieldOptions + '" placeholder="Option1, option2, option3" style="display:none;">';
+                } else {
+                    application_field_option = '<input type="text" class="settings-field-options sjb-form-control" name="jobapp_' + app_field_name + '[option]" value="' + fieldOptions + '" placeholder="Option1, option2, option3">';
+                }
+
+                $('#settings_app_form_fields').append('<div class="jobapp_' + app_field_name + ' ui-sortable-handle"><div class="sjb-form-group sjb-row">' +
+                        '<div class="sjb-col-md-3"><label class="sjb-editable-label" >' + app_field_raw + '</label>' +
+                        '<input type="hidden" class="sjb-form-control" name="jobapp_' + app_field_name + '[label]" value="' + app_field_raw + '">' +
+                        '</div>' +
+                        '<div class="sjb-col-md-3">' +
+                        '<select class="settings_jobapp_field_type sjb-form-control" name="jobapp_' + app_field_name + '[type]"  >' +
+                        fieldTypeHtml +
+                        '</select>' + application_field_option +
+                        '</div>' +
+                        '<div class="sjb-col-md-2">' +
+                        '<label class="small">' +
+                        '<input type="checkbox" class="settings-jobapp-required-field"  ' + isRequired + '>' +
+                        '<input type="hidden"   name="jobapp_' + app_field_name + '[optional]"  value="' + isRequired + '">' + front_application_form.settings_jquery_alerts['required'] + '&nbsp;' +
+                        '</label></div>' +
+                        '<div class="sjb-col-md-2"><label for="" class="small">' +
+                        '<input type="radio" class="settings-applicant-columns" name="[applicant_column]" ' + applicantColumns + '>' + front_application_form.settings_jquery_alerts['applicant_listing_col'] +
+                        '<input type="hidden" class="settings-jobapp-applicant-column" name="jobapp_' + app_field_name + '[applicant_column]" value="' + applicantColumns + '">' +
+                        '</label></div>' +
+                        '<div class="sjb-col-md-2"><button type="button" class="removeField">' + front_application_form.settings_jquery_alerts['delete'] + '</button></div>' +
+                        '</div></div>');
+                $('.jobapp_' + app_field_name + ' .' + app_field_type).attr('selected', 'selected');
+                $('#setting_jobapp_name').val('');
+                field_options.hide();
+                field_options.val('');
+                $('#settings-jobapp-field-types').val('text');
+                $('#settings_jobapp_required_field').prop('checked', true);
+            } else {
+
+                /* Empty Form Field Name Alert -> Making Translation Ready String Through Script Locaization */
+                alert(front_application_form.settings_jquery_alerts['empty_field_name']);
+                $('#setting_jobapp_name').focus(); //Keep focus on this input
+            }
+
+            // Call sjb_editable_label() function for newly added form field in settings.
+            $(".sjb-editable-label").each(function () {
+                sjb_editable_label($(this));
+            });
+        });
+        // Field Types on Change
+        $('#settings-jobapp-field-types').on('change', function () {
+            var fieldType = $(this).val();
+            if ('checkbox' == fieldType || 'dropdown' == fieldType || 'radio' == fieldType) {
+                $(this).next().show();
+            } else {
+                $(this).next().hide();
+                $(this).next().val('');
+            }
+        });
+        // Settings Field Types on Change
+        $('#settings_app_form_fields').on('change', '.settings_jobapp_field_type', function () {
+            var fieldType = $(this).val();
+            if ('checkbox' == fieldType || 'dropdown' == fieldType || 'radio' == fieldType) {
+                $(this).next().show();
+            } else {
+                $(this).next().hide();
+                $(this).next().val('');
+            }
+        });
+        /* Change the Required & Optional Field Parameter */
+        $('#settings_app_form_fields').on("change", '.settings-jobapp-required-field', function () {
+            var input = $(this);
+            input.attr("checked") ? input.next().val("checked") : input.next().val("unchecked");
+        });
+        /* Change the Radio Button Check */
+        $('#settings_app_form_fields').on("change", '.settings-applicant-columns', function () {
+            $(".settings-applicant-columns").each(function () {
+                var input = $(this);
+                if (input.attr("checked")) {
+                    input.removeAttr('checked');
+                    input.next().val("unchecked");
+                } else {
+                }
+            });
+            $(this).next().val("checked");
+            $(this).prop('checked', true);
+        });
+
+        /* Job Application Form Submission */
+        $('#jobapp_btn').on('click', function () {
+            jobapp_form.submit();
+        });
+        /*
+         * Save tab state on refresh
+         */
+        $(document).ready(function () {
+            if (window.location.hash) {
+                $(".sjb-wrap .sjb-dashboard .nav li a[href='" + window.location.hash + "']").tab("show");
+            } else {
+                var anchor = $(".sjb-wrap .sjb-dashboard .nav li a[data-toggle='tab']").first().attr("href");
+                $(".sjb-wrap .sjb-dashboard .nav li a[href='" + anchor + "']").tab("show");
+            }
+            $(document.body).on("click", ".sjb-wrap .sjb-dashboard .nav li a[data-toggle='tab']", function (event) {
+                window.location.hash = this.getAttribute("href");
+            });
+
+            $(window).on("popstate", function () {
+                var anchor = window.location.hash || $(".sjb-wrap .sjb-dashboard .nav li a[data-toggle='tab']").first().attr("href");
+                $(".sjb-wrap .sjb-dashboard .nav li a[href='" + anchor + "']").tab("show");
+            });
+
+            $(document).ready(function () {
+                $('input#employer_conpass').change(function () {
+                    var pass = $('input#employer_userpass').val();
+                    var conpass = $(this).val();
+                    var conPasstick = $(this).next();
+                    if (conpass === pass && conpass != '') {
+                        $(conPasstick).removeClass('fa-lock');
+                        $(conPasstick).removeClass('fa-close');
+                        $(conPasstick).addClass('fa-check');
+                        $(conPasstick).addClass('green-tick');
+                        $(conPasstick).removeClass('red-close');
+                    } else if (conpass == '') {
+                        $(conPasstick).addClass('fa-lock');
+                        $(conPasstick).removeClass('fa-check');
+                        $(conPasstick).removeClass('red-close');
+                    } else {
+                        $(conPasstick).removeClass('fa-lock');
+                        $(conPasstick).addClass('fa-close');
+                        $(conPasstick).removeClass('fa-check');
+                        $(conPasstick).removeClass('green-tick');
+                        $(conPasstick).addClass('red-close');
+                    }
+
+                });
+
+                $('input#employer_userpass').change(function () {
+                    var pass = $('input#employer_conpass').val();
+                    var conpass = $(this).val();
+                    var conPasstick = $('input#employer_conpass').next();
+
+                    if (pass != '')
+                    {
+                        if (conpass === pass) {
+                            $(conPasstick).removeClass('fa-lock');
+                            $(conPasstick).removeClass('fa-close');
+                            $(conPasstick).addClass('fa-check');
+                            $(conPasstick).addClass('green-tick');
+                            $(conPasstick).removeClass('red-close');
+                        } else {
+                            $(conPasstick).removeClass('fa-lock');
+                            $(conPasstick).addClass('fa-close');
+                            $(conPasstick).removeClass('fa-check');
+                            $(conPasstick).removeClass('green-tick');
+                            $(conPasstick).addClass('red-close');
+                        }
+                    } else if (pass == '' && conpass == '') {
+                        $(conPasstick).addClass('fa-lock');
+                        $(conPasstick).removeClass('fa-check');
+                        $(conPasstick).removeClass('red-close');
+                    }
+                });
+                setTimeout(function () {
+                    $('.alert-massage-success').fadeOut('fast');
+                }, 5000);
+
+            });
+
+
+            /**
+             * Initialize TelInput Plugin
+             * 
+             * @since   2.2.0
+             */
+            if ($('.sjb-phone-number').length) {
+                var telInput_id = $('.sjb-phone-number').map(function () {
+                    return this.id;
+                }).get();
+
+                for (var input_ID in telInput_id) {
+                    var telInput = $('#' + telInput_id[input_ID]);
+                    telInput.intlTelInput({
+                        initialCountry: "auto",
+                        geoIpLookup: function (callback) {
+                            $.get('https://ipinfo.io', function () {
+                            }, "jsonp").always(function (resp) {
+                                var countryCode = (resp && resp.country) ? resp.country : "";
+                                callback(countryCode);
+                            });
+                        },
+                    });
+                }
+            }
+
+            /**
+             * Application Form -> Phone Number Validation
+             * 
+             * @since 2.2.0
+             */
+            $('.sjb-phone-number').on('input', function () {
+
+                var telInput = $(this);
+                var telInput_id = $(this).attr('id');
+                var error_element = $("#" + telInput_id + "-invalid-phone");
+                error_element.hide();
+
+                // Validate Phone Number
+                if ($.trim(telInput.val())) {
+                    if (telInput.intlTelInput("isValidNumber")) {
+                        telInput.removeClass("invalid").addClass("valid");
+                        error_element.hide();
+                    } else {
+                        telInput.removeClass("valid").addClass("invalid");
+                    }
+                }
+            });
+
+
+            // Add drag fields Fields
+
+            if ($('#settings_job_features , #settings_job_features ,  #settings_app_form_fields , #app_form_fields , #job-featues-sort , #job-application-sort , #job-featues, #app_form_fields, #job_features').length) {
+                $("#settings_job_features , #settings_job_features ,  #settings_app_form_fields , #app_form_fields , #job-featues-sort , #job-application-sort , #job-featues, #app_form_fields, #job_features").sortable();
+            }
+
+            /** 
+             * Stop Form Submission -> On Invalid Email
+             *  
+             * @since 2.2.0          
+             */
+            function sjb_is_valid_input(event, input_type, input_class) {
+                var jobpost_form_inputs = $("." + input_class).serializeArray();
+                
+                var error_free = true;
+
+                for (var i in jobpost_form_inputs) {
+                    var element = $("#" + jobpost_form_inputs[i]['name']);
+                  
+                    var valid = element.hasClass("valid");
+                    var is_required_class = element.hasClass("sjb-not-required");
+                    var error_element;
+                    if (!(is_required_class && "" === jobpost_form_inputs[i]['value'])) {
+                        if ("email" === input_type) {
+                            error_element = $("span", element.parent());
+                        } else if ("phone" === input_type) {
+                           
+                            error_element = $("#" + jobpost_form_inputs[i]['name'] + "-invalid-phone");
+                            
+                        }
+                       ;
+                        // Set Error Indicator on Invalid Input
+                        if (!valid) {
+                            error_element.show();
+                            error_free = false;
+                        } else {
+                            error_element.hide();
+                        }
+
+                        // Stop Form Submission
+                        if (!error_free) {
+                            event.preventDefault();
+                        }
+                    }
+                }
+                return error_free;
+            }
+
+            $("#employer-singup-form, #employer-singup-form-edit").on("submit", function (event) {
+                var is_valid_email = sjb_is_valid_input(event, "email", "sjb-email-address");
+                var is_valid_phone = sjb_is_valid_input(event, "phone", "sjb-phone-number");
+
+                /* Stop Form Submission on Invalid Phone, Email & File Attachement */
+                if (!is_valid_phone || !is_valid_email) {
+                    return false;
+                }
+            });
+
+            // Accept Numbers Input Only
+            $(".sjb-numbers-only").keypress(function (evt) {
+                evt = (evt) ? evt : window.event;
+                var charCode = (evt.which) ? evt.which : evt.keyCode;
+                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                    return false;
+                }
+                return true;
+            });
+        });
+    });
+    $(document).ready(function () {
+
+        // Print PDF Command on Resume Manager
+        $('.print-app-pdf').on("click", function (e) {
+            e.preventDefault();
+            var id = $(this).next().next().val();
+            var form = document.getElementById("print-pdf-form-" + id);
+            $(this).next().val('1');
+            form.submit();
+        });
+
+        // Submit export job applications csv form
+        $('.print-app-csv').on("click", function (e) {
+
+            e.preventDefault();
+            var id = $(this).next().next().val();
+            var form = document.getElementById("print-csv-form-" + id);
+            $(this).next().val('1');
+            form.submit();
+        });
+
+        // Insert After Filter Button
+        $('#sjbdce_start_date, #sjbdce_end_date, #export_all_applicants, #email_all_applicants').insertAfter('#post-query-submit');
+
+        $('#export_all_applicants').addClass("btn-csv-export-button");
+        $('#email_all_applicants').addClass("btn-csv-export-button");
+
+        $("#sjbdce_start_date").datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function () {
+                //- get date from another datepicker without language dependencies
+                var minDate = $('#sjbdce_start_date').val();
+                $('#sjbdce_start_date').attr('value', minDate);
+            }
+        });
+
+        $("#sjbdce_end_date").datepicker({
+            dateFormat: 'mm/dd/yy',
+            changeMonth: true,
+            changeYear: true,
+            onSelect: function () {
+
+                //- get date from another datepicker without language dependencies
+                var maxDate = $('#sjbdce_end_date').val();
+                $('#sjbdce_end_date').attr('value', maxDate);
+            }
+        });
+
+        var $noticeMarkup = '<div class="alert"><p class="csv-export-alert-text"></p></div>';
+
+        function validateEmail(email) {
+            const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function manageModalFormSubmission() {
+
+            var emailVerification = verifyEmail();
+
+            if (emailVerification && '' !== $('#csv_modal_email_subject').val() && '' !== $('#csv_modal_email_body').text()) {
+                $('#submit-csv-emails').attr('disabled', false);
+                $('#submit-csv-emails').addClass("btn-csv-export-button");
+            } else {
+                $('#submit-csv-emails').attr('disabled', true);
+                $('#submit-csv-emails').removeClass("btn-csv-export-button");
+            }
+        }
+
+        function verifyEmail() {
+            var emails = ($('#csv_modal_email').val().replace(/ /g, "")).split(',');
+            var emailsCount = emails.length;
+            emails = emails.filter(validateEmail);
+
+            if (emailsCount === emails.length && emailsCount > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        var modal = $(".csv-email-modal");
+        var modalCloseBtn = $(".csv-email-close");
+
+        function manageCSVModal() {
+            // When the user clicks the button, open the modal 
+            $("#csv-email-modal").show();
+
+            // When the user clicks on close button, close the modal
+            modalCloseBtn.on('click', function () {
+                modal.hide();
+                $('.csv-modal-footer').find('.alert').remove();
+            });
+
+            // When the user clicks anywhere outside of the modal, close it
+            $(window).on('click', function (e) {
+                if (e.target == modal[0]) {
+                    modal.hide();
+                    $('.csv-modal-footer').find('.alert').remove();
+                }
+            });
+
+            setTimeout(function () {
+                $('#csv_modal_email_subject').trigger('keyup');
+            }, 100);
+
+            $('#csv_modal_email_subject, #csv_modal_email_body, #csv_modal_email').on('keyup', manageModalFormSubmission);
+        }
+        $("#csv-email-modal").hide();
+
+        // Email CSV
+        $('#email_all_applicants').on('click', function (e) {
+            e.preventDefault();
+
+            var $dateFrom = $('#sjbdce_start_date').val();
+            var $dateTo = $('#sjbdce_end_date').val();
+
+            if ('' === $dateFrom) {
+                var date = new Date();
+                $dateFrom = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                $dateFrom = $dateFrom.getMonth() + 1 + '/' + $dateFrom.getDate() + '/' + $dateFrom.getFullYear();
+                $('#sjbdce_start_date').val($dateFrom);
+            }
+
+            if ('' === $dateTo) {
+                var $startingDate = new Date($dateFrom);
+                var $dateTo = new Date($startingDate.getFullYear(), $startingDate.getMonth() + 1, 0);
+                $dateTo = $dateTo.getMonth() + 1 + '/' + $dateTo.getDate() + '/' + $dateTo.getFullYear();
+                $('#sjbdce_end_date').val($dateTo);
+            }
+
+            var $subjectPostfix = ' (' + $dateFrom + ' ' + translations.to + ' ' + $dateTo + ')';
+            $('#csv_modal_email_subject').val(translations.subject_prefix + $subjectPostfix);
+
+            manageCSVModal();
+
+            $('#submit-csv-emails').unbind('click');
+            $('#submit-csv-emails').on('click', function (e) {
+                e.preventDefault();
+
+                var emails = $('#csv_modal_email').val();
+
+                $('#submit-csv-emails').attr('disabled', true);
+                $('.csv-modal-footer').find('.alert').remove();
+                $('.csv-email-modal-content').find('.csv-email-modal-body').addClass('processing');
+                $('.csv-email-modal-content').find('.loader').show();
+
+                $.ajax({
+                    url: front_application_form.ajaxurl,
+                    type: 'POST',
+                    data: {
+                        action: 'email_csv_applications',
+                        emails: emails,
+                        date_from: $dateFrom,
+                        date_to: $dateTo,
+                        subject: $('#csv_modal_email_subject').val(),
+                        message: $('#csv_modal_email_body').val(),
+                    },
+                    success: function (response) {
+
+                        var noticeClass = '';
+                        if (response.data.success) {
+                            noticeClass = 'csv-export-success';
+                        } else {
+                            noticeClass = 'csv-export-error';
+                        }
+
+                        var notice = $($noticeMarkup);
+                        notice.addClass(noticeClass);
+                        notice.find('p').text(response.data.message);
+                        $('.csv-modal-footer').append(notice);
+
+                        $('#submit-csv-emails').attr('disabled', false);
+                        $('.csv-email-modal-content').find('.csv-email-modal-body').removeClass('processing');
+                        $('.csv-email-modal-content').find('.loader').hide();
+                    }
+                });
+
+            });
+
+        });
+
+        // Submit email job applications csv form
+        $('.email-app-csv').on("click", function (e) {
+            e.preventDefault();
+
+            var $this = $(this);
+            if (0 === parseInt($this.data('job_count'))) {
+                alert(translations.no_applicant);
+                return false;
+            }
+
+            var id = $this.next().next().val();
+            var form = document.getElementById("email-csv-form-" + id);
+
+            var $job_title = $this.parents('div.job-posted').find('div.caption').find('a').find('h4').text();
+            $('#csv_modal_email_subject').val(translations.subject_prefix + ' ' + translations.for + ' ' + $job_title + '.');
+
+            manageCSVModal();
+            $('#submit-csv-emails').unbind('click');
+            $('#submit-csv-emails').on('click', function (e) {
+                e.preventDefault();
+                $('#submit-csv-emails').attr('disabled', true);
+                $('.csv-modal-footer').find('.alert').remove();
+                $('.csv-email-modal-content').find('.csv-email-modal-body').addClass('processing');
+                $('.csv-email-modal-content').find('.loader').show();
+
+                var emails = $('#csv_modal_email').val();
+
+                $.ajax({
+                    url: front_application_form.ajaxurl,
+                    type: 'POST',
+                    data: {
+                        action: 'email_job_csv_applications',
+                        emails: emails,
+                        job_id: id,
+                        subject: $('#csv_modal_email_subject').val(),
+                        message: $('#csv_modal_email_body').val(),
+                    },
+                    success: function (response) {
+                        var noticeClass = '';
+                        if (response.data.success) {
+                            noticeClass = 'csv-export-success';
+                        } else {
+                            noticeClass = 'csv-export-error';
+                        }
+
+                        var notice = $($noticeMarkup);
+                        notice.addClass(noticeClass);
+                        notice.find('p').text(response.data.message);
+                        $('.csv-modal-footer').append(notice);
+
+                        $('#submit-csv-emails').attr('disabled', false);
+                        $('.csv-email-modal-content').find('.csv-email-modal-body').removeClass('processing');
+                        $('.csv-email-modal-content').find('.loader').hide();
+                    }
+                });
+
+            });
+
+        });
+
+        $('#export_all_applicants, #email_all_applicants, #jds_download_attachments').on('click', function (e) {
+            if (!$('#sjbdce_start_date').val() && !$('#sjbdce_end_date').val()) {
+                e.preventDefault();
+                alert('Please enter start date and end date.');
+            } else if (!$('#sjbdce_start_date').val() && $('#sjbdce_end_date').val()) {
+                e.preventDefault();
+                alert('Please enter start date.');
+            } else if ($('#sjbdce_start_date').val() && !$('#sjbdce_end_date').val()) {
+                e.preventDefault();
+                alert('Please enter end date.');
+            }
+        });
+
+        // Check/uncheck all checkboxes on one click
+        $("#select-all-applications").on('change', function () {
+            $(".fjp-cb-select").prop('checked', $(this).is(":checked"));
+        });
+
+        // 
+        $('#fjp-doaction').on('click', function (e) {
+            if ('trash' == $("#bulk-action-selector option:selected").val()) {
+                if (!confirm(front_application_form.settings_jquery_alerts.delete_resume_perm))
+                {
+                    e.preventDefault();
+                }
+            }
+        })
+    
+        // Submit after package selection
+        $('#fjp_submit_package').on('click', function (e) {
+            e.preventDefault();
+            
+            // get job id
+            var job_id = $("input[name=job_id]").val();
+            // get package id
+            var fjp_package_id = $("input[name=fjp_paid_listing]:checked").val();
+
+            $.ajax({
+                url: front_application_form.ajaxurl,
+                type: 'POST',
+                data: {
+                    action: 'fjp_submit_package',
+                    fjp_package_id: fjp_package_id,
+                    job_id: job_id
+                },
+                beforeSend: function () {
+                    $('.fjp_package_overlay').show();
+                },
+                success: function (response) {
+                    $('.fjp_package_overlay').hide();
+                    if(response.error == '1'){
+                        $('#fjp_error_msg').html(response.html);
+                    }
+                    if(response.success == '1'){
+                        window.location.href = response.link;
+                    }
+                }
+            });
+
+        });
+    });
+
+    
+})(jQuery);
