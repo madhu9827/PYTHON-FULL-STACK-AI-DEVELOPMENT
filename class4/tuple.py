@@ -1,8 +1,0 @@
-t1=()
-t2=(10,20)
-t3=(10,20,30,True,50,{5})
-print(t1)
-print(t2)
-print(t3)
-print(t2[-1])
-print(t3[5])

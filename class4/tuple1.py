@@ -1,5 +1,0 @@
-eid=(101,102,103,104)
-print(eid)
-print(eid[-1])
-print(eid[2])
-print(eid[-4])
