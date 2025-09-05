@@ -1,0 +1,12 @@
+numbers=[1,2,3,4,25]
+print(numbers)
+numbers.append(20)
+numbers.insert(5,6)
+print(numbers)
+numbers.sort()
+print(numbers)
+print(numbers.index(2))
+print(numbers)
+numbers.reverse()
+print(numbers)
+print(numbers.count(2))
