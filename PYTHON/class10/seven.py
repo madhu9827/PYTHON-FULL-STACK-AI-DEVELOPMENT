@@ -10,7 +10,6 @@ actors = [
         "name": "Leonardo DiCaprio",
         "age": 49,
         "country": "USA",
-        "famous_movie": "Inception"
     },
     {
         "name": "Priyanka Chopra",
