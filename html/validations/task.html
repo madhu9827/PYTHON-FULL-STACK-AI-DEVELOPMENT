@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>User registration</title>
+    </head>
+    <body>
+        <h2>User Registration</h2>
+        <form action="/register">
+            <label>Name:</label>
+            <input type="text" required placeholder="enter full name" /> <br> <br>
+            <label>Email:</label>
+            <input type="email" required placeholder="enter email address"/> <br> <br>
+            <label>password:</label>
+            <input type="password" required pattern="[0-9]{6}"/> <br><br>
+            <label>phoneno</label>
+            <input type="tel" required pattern="[0-9]{10}"/> <br> <br>
+            <label>Gender</label>
+            <input type="radio" name="page" placeholder="user">Male <input type="radio" name="page" placeholder="user">female  <input type="radio"  name="page" placeholder="user">others  <br> <br>
+            <label>date of birth </label>
+            <input type="date" required /> <br> <br>
+            <label>country</label>
+            <select>
+                <option value=""disabled selected>select the country</option>
+                <option value="in">India</option>
+                <option value="us">USA</option>
+                <option value="mp">MP</option>
+            </select> <br> <br>
+            <label>
+            <input type="checkbox" required >terms and conditions
+            </label> <br> <br>
+            <input type="submit" value="register" >
+            <input type="reset" value="cancel" >
+        </form>
+    </body>
+</html>
