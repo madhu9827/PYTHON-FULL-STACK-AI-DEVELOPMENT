@@ -1,0 +1,14 @@
+emp={
+    'eid':101,
+    'ename':'madhu',
+    'esal':45000
+}
+print(emp)
+print(emp['eid'])
+print(emp.get('eid'))
+print(emp.keys())
+print(emp.values())
+print(emp.items())
+print(emp.popitem())
+emp.clear()
+print(emp)
