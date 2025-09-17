@@ -300,3 +300,5 @@ WHERE employees.bu_Id=bunit.b_Id;
 INSERT INTO employees
 VALUES
 (104,'Gnanesh',75000,1002,21);
+
+
