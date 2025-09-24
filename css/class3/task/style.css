@@ -1,0 +1,21 @@
+.heding{
+    background-color: azure;
+}
+.info{
+    background-color: bisque;
+}
+input[type=text]{
+    color: blue;
+}
+input[type=email]{
+    color: brown;
+}
+input[type=password]{
+    color:aquamarine
+}
+a[target]{
+    background-color: aqua;
+}
+a{
+    background-color: aqua;
+}
