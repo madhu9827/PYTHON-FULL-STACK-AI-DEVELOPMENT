@@ -47,6 +47,6 @@ cw.writerow(['user_id','name','email','gender'])
 cw.writerows(new_users)
 print(new_users)
 
-fp2=open('emp.json','w')
+fp2=open('users.json','w')
 json.dump(new_users,fp2)
 print("New JSON File Created")
