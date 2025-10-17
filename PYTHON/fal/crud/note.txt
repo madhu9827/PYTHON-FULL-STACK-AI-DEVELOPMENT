@@ -1,0 +1,14 @@
+Create --end point
+------------------------
+Usage:Create new user
+API URL:http://127.0.0.1:8000/api 
+Method Type:POST
+Required Fields:pname,price,city,info
+Access Type:Public
+
+data validation
+...............
+pname-required field and max length is 40 char
+price-required field and min price value is 1000
+city-required field and min 1 ,max=100
+info --required field
