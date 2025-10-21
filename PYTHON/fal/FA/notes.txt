@@ -1,0 +1,36 @@
+Application Root
+--------------------
+Usage:application root request 
+REST API URL: 127.0.0.1:8000/
+Method Type:GET 
+Required Fields:None 
+Access Type:Public 
+
+Create
+----------
+Usage:Create new employees
+REST API URL: 127.0.0.1:8000/emp/
+Method Type:POST
+Required Fields:eid,ename,esal 
+Access Type:Public 
+
+Read
+-----------
+Usage:fetch all employees 
+REST API URL: 127.0.0.1:8000/emp/
+Method Type:GET 
+Required Fields:None
+Access Type:Public
+
+Read 
+------------
+Usage: Get employee by Id/eid  
+REST API URL: 127.0.0.1:8000/emp/101
+Method Type:GET 
+Required Fields:None
+Access Type:Public
+
+Update
+---------
+Delete
+--------
