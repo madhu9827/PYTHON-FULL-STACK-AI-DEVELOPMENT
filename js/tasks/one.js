@@ -16,11 +16,11 @@ function changecolor2(){
 function changecolor3(){
     document.getElementById('zzz').style.backgroundColor="pink"
 }
-function changecolor4(){
-    document.getElementById('yyy').innerHTML=style.backgroundColor="yellow"
+function changecolor4(x){
+    x.style.backgroundColor="yellow"
 
 }
-function changecolor5(){
-    document.getElementById('xxx').innerHTML="rahul"
-
+function convertToUppercase(){
+    let y=document.getElementById("input")
+    y.value=y.value.toUpperCase();
 }
