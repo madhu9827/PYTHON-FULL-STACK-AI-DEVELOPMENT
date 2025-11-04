@@ -1,12 +1,18 @@
-let table=document.querySelector('my table')
-let data=[{"id":1,"name":"Brooke","email":"bbibey0@issuu.com","gender":"Male"},
-{"id":2,"name":"Dionisio","email":"dfrosch1@unblog.fr","gender":"Male"},
-{"id":3,"name":"Lammond","email":"lmccoll2@youtube.com","gender":"Male"},
-{"id":4,"name":"Bryn","email":"bmacaskill3@cmu.edu","gender":"Male"},
-{"id":5,"name":"Rena","email":"rdreher4@devhub.com","gender":"Female"},
-{"id":6,"name":"Godfree","email":"gbolesma5@wikimedia.org","gender":"Male"},
-{"id":7,"name":"Dotti","email":"dmccallum6@ifeng.com","gender":"Female"},
-{"id":8,"name":"Haroun","email":"hcrighton7@sfgate.com","gender":"Male"},
-{"id":9,"name":"Barbara","email":"bspry8@fc2.com","gender":"Female"},
-{"id":10,"name":"Nappy","email":"naverall9@t-online.de","gender":"Non-binary"}]
-
+let employees=[
+    {eid:101,ename:"Rahul",esal:45000},
+    {eid:102,ename:"Sonia",esal:55000},
+    {eid:103,ename:"Priyanka",esal:65000},
+    {eid:104,ename:"Modi",esal:75000}
+]
+function display_Data(){
+    let rows="";
+    for(let emp of employees){
+        rows=rows+`<tr>
+                        <td>${emp.eid}</td>
+                        <td>${emp.ename}</td>
+                        <td>${emp.esal}</td>
+                   </tr>`
+    }
+    document.getElementById('tbody_data').innerHTML=rows;
+    //document.getElementById('tbody_data').innerHTML="GM"
+}
