@@ -1,0 +1,6 @@
+fp=open('two.txt','w')
+print(fp.name)
+print(fp.writable())
+print(fp.readable())
+fp.close()
+print(fp.close())
