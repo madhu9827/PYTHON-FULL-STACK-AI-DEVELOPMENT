@@ -9,7 +9,7 @@ let age=ages.filter((age)=>{
 console.log(age)
 //find
 const numbers = [3, 7, 12, 5, 20];
-let number=numbers.find((number)=>{return number==12})
+let number=numbers.find((number)=>{return number>10})
 console.log(number)
 //for each
 const animals = ['dog', 'cat', 'lion'];
