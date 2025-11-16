@@ -59,4 +59,4 @@ let products={
       "thumbnail": "https://cdn.dummyjson.com/product-images/beauty/essence-mascara-lash-princess/thumbnail.webp"
 }
 let{id,price,category}=products;
-consolel.og(id,)
+console.log(id,)
