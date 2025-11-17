@@ -29,11 +29,8 @@ let getEmployees=()=>{
         document.getElementById('tb_data').innerHTML=rows
     },1000)
 }
-createEmployee({eid:103,ename:"priya"})
-.then((msg)=>{
-    console.log(msg);
+let execute=async()=>{
+    await createEmployee({eid:103,ename:"tanu"})
     getEmployees()
-})
-.catch((err)=>{
-    console.log(err)
-})
+}
+execute()
