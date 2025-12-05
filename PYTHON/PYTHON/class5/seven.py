@@ -1,0 +1,14 @@
+product={
+    'pid':101,
+    'pname':'marker',
+    'price':405,
+    'details':{
+        'color':['blue','black','red'],
+        'size':'small'
+    }
+ }
+print(product['pname'])
+print(product['details']['color'])
+print(product['details']['size'])
+print(product['details']['color'][0])
+print(product['details']['color'][1])

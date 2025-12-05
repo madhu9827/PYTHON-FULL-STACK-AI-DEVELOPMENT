@@ -1,0 +1,6 @@
+#fp=open('data.txt','w')
+#fp.write('gm')
+#print('return success')
+fp=open('abc.txt','w')
+fp.write("good morning")
+print("written success")
