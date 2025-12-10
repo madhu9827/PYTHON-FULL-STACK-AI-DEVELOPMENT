@@ -29,12 +29,43 @@
 // }
 // export default App;
 
-import User from './Restapi-axios/User'
-import Users from './Restapi-axios/Users'
+// import User from './Restapi-axios/User'
+// import Users from './Restapi-axios/Users'
+
+
+// import Albums from './Restapi-axios/Albums'
+
+// let App=()=>{
+//     return <div>
+//         {/* <User/>
+//         <Users/> */}
+//         <Albums/>
+//     </div>
+// }
+// export default App;
+
+
+
+
+import Navbar from "./routing/Navbar";
+import {BrowserRouter as Router,Routes,Route} from 'react-router-dom'
+import Home from './routing/header/Home'
+import Contact from './routing/header/Contact'
+import Login from './routing/header/Login'
+// import Navbar1 from "./routing/Navbar1"
 let App=()=>{
     return <div>
-        <User/>
-        <Users/>
+        <Router future={{
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true,}}>
+            <Navbar/>
+            <Routes>
+                <Route path="/"  element={<Home/>}/>
+                <Route path="/home"  element={<Home/>}/>
+                <Route path="/contact"  element={<Contact/>}/>
+                <Route path="/login"  element={<Login/>}/>
+            </Routes>
+        </Router>
     </div>
 }
 export default App;
